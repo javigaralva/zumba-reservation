@@ -23,3 +23,4 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         USERS_TO_NOTIFY: ${{ secrets.USERS_TO_NOTIFY }}
     - uses: stefanzweifel/git-auto-commit-action@v4
+      commit_message: "[bot] Set reservation state to ON"
