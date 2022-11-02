@@ -21,8 +21,7 @@ async function main() {
 
     checkIfStateIsOnOrExit()
 
-    // const tomorrow = getTomorrow()
-    const tomorrow = moment().add(1,'day').hour(17).minute(0).second(0)
+    const tomorrow = getTomorrow()
 
     console.log('Buscando para la clase del ' + tomorrow.format('YYYY-MM-DD HH:mm:ss'))
 
