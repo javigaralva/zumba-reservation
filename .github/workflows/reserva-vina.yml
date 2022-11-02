@@ -1,0 +1,24 @@
+name: Reservation for Vina
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reservationVina:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js version 18.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 18.x
+    - run: npm install
+    - run: npm run vina
+      env:
+        USER_VINA: ${{ secrets.USER_VINA }}
+        PASSWORD_VINA: ${{ secrets.PASSWORD_VINA }}
+        USER_DEHESA: ${{ secrets.USER_DEHESA }}
+        PASSWORD_DEHESA: ${{ secrets.PASSWORD_DEHESA }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        USERS_TO_NOTIFY: ${{ secrets.USERS_TO_NOTIFY }}
