@@ -22,7 +22,7 @@ async function main() {
 
     console.log('Buscando para la clase del ' + tomorrow.format('YYYY-MM-DD HH:mm:ss'))
 
-    const browser = await playwright.chromium.launch({ headless: false })
+    const browser = await playwright.chromium.launch({ headless: true })
 
     const page = await browser.newPage()
 
