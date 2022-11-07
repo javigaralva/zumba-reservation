@@ -1,4 +1,4 @@
-import chooseEmptyPlace from "./chooseEmptyPlace.js"
+import chooseEmptyPlace from './chooseEmptyPlace.js'
 
 export default async function chooseEmptyPlaceAndReserveIt({ page }) {
     const placeFound = await chooseEmptyPlace({ page })
