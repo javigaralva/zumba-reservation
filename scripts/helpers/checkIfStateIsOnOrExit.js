@@ -1,8 +1,8 @@
 import { isState } from '../config/config.js'
+import { exitOk } from './exit.js'
 
-export default function checkIfStateIsOnOrExit() {
+export default async function checkIfStateIsOnOrExit() {
     if (!isState('ON')) {
-        console.log('El estado no está activo. No se realizará la reserva.')
-        process.exit(0)
+        await exitOk({ text: 'El estado no está activo. No se realizará la reserva.', notify: false })
     }
 }

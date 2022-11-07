@@ -5,6 +5,7 @@ import goToCorrectCalendarPage from './helpers/goToCorrectCalendarPage.js'
 import inscribeInZumba from './helpers/inscribeInZumba.js'
 import finishReservation from './helpers/finishReservation.js'
 import checkIfStateIsOnOrExit from './helpers/checkIfStateIsOnOrExit.js'
+import { exitOk, exitWithError } from './helpers/exit.js'
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -16,9 +17,9 @@ main()
 
 async function main() {
 
-    checkIfStateIsOnOrExit()
+    await checkIfStateIsOnOrExit()
 
-    const tomorrow = getTomorrow()
+    const tomorrow = await getTomorrow()
 
     console.log('Buscando para la clase del ' + tomorrow.format('YYYY-MM-DD HH:mm:ss'))
 
@@ -30,27 +31,37 @@ async function main() {
     const password = process.env.PASSWORD_DEHESA
     const zumbaSelectorClass = '.clase-nombre-ZUMBA-'
 
+    let step = 'Go to main page'
     await page.goto('https://reservas.ssreyes.org/')
 
-    await doLogin({ page, user, password })
+    try {
+        step = 'doLogin'
+        await doLogin({ page, user, password })
 
-    await page.getByRole('link', { name: 'RESERVAR' }).first().click()
+        step = 'goToReservation'
+        await goToReservation({ page })
 
-    await goToCorrectCalendarPage({ page, dayToGo: tomorrow })
+        step = 'goToCorrectCalendarPage'
+        await goToCorrectCalendarPage({ page, dayToGo: tomorrow })
 
-    await inscribeInZumba({ zumbaSelectorClass, day: tomorrow, page })
+        step = 'inscribeInZumba'
+        await inscribeInZumba({ zumbaSelectorClass, day: tomorrow, page })
 
-    await finishReservation({ page })
+        step = 'finishReservation'
+        await finishReservation({ page })
 
-    process.exit(0)
+    } catch (error) {
+        await exitWithError({ page, text: `Error en el proceso de reserva de Dehesa Vieja. Step: '${step}'` })
+    }
+
+    await exitOk()
 }
 
-function getTomorrow() {
+async function getTomorrow() {
     const tomorrow = moment().add(1, 'day')
 
     if (tomorrow.day() !== 1) {
-        console.error('Mañana no es lunes en Dehesa Vieja.')
-        process.exit(-1)
+        await exitWithError({ text: 'Mañana no es lunes en Dehesa Vieja', notify: false })
     }
 
     tomorrow.hour(MONDAY_CLASS.HOUR).minute(MONDAY_CLASS.MINUTE).second(MONDAY_CLASS.SECOND)
@@ -58,3 +69,7 @@ function getTomorrow() {
     return tomorrow
 }
 
+async function goToReservation({ page }) {
+    console.log('Accediendo a la página de reservas...')
+    await page.getByRole('link', { name: 'RESERVAR' }).first().click()
+}

@@ -1,3 +1,5 @@
+import { exitWithError } from './exit.js'
+
 export default async function finishReservation({ page }) {
     console.log('Reservando plaza de zumba...')
 
@@ -9,8 +11,7 @@ export default async function finishReservation({ page }) {
         const errorLocator = await page.locator('.box-datos-error')
         const isErrorLocatorVisible = await errorLocator.isVisible()
         if (isErrorLocatorVisible) {
-            console.error('No se puede realizar la reserva: ' + (await errorLocator.innerText()))
-            process.exit(-1)
+            await exitWithError({ page, text: 'No se puede realizar la reserva: ' + (await errorLocator.innerText()) })
         }
     }
     {

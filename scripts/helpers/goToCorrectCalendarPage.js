@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { exitWithError } from './exit.js'
 
 export default async function goToCorrectCalendarPage({ page, dayToGo }) {
     while (true) {
@@ -16,8 +17,7 @@ export default async function goToCorrectCalendarPage({ page, dayToGo }) {
         }
 
         if (!dayToGo.isAfter(dayTo)) {
-            console.log('Error de página del calendario')
-            process.exit(-1)
+            await exitWithError({ page, text: 'Error de página del calendario' })
         }
 
         console.log('Pasamos a la siguiente página del calendario')
