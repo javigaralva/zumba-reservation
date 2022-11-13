@@ -57,6 +57,7 @@ async function main() {
         await finishReservation({ page })
 
     } catch (error) {
+        console.error(error)
         await exitWithError({ page, text: `Error en el proceso de reserva de la Viña. Step: '${step}'` })
     }
 
@@ -80,5 +81,5 @@ async function getTomorrow() {
 
 async function goToReservation({ page }) {
     console.log('Accediendo a la página de reservas...')
-    await page.getByRole('link', { name: 'RESERVAS DE ACTIVIDADES' }).first().click()
+    await page.getByRole('link', { name: 'RESERVAS DE CLASES' }).first().click()
 }
