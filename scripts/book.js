@@ -33,6 +33,7 @@ function sanitizeCenterConfig(centerConfig = {}) {
     sanitizedCenterConfig.USER = process.env[sanitizedCenterConfig.USER]
     sanitizedCenterConfig.PASSWORD = process.env[sanitizedCenterConfig.PASSWORD]
     sanitizedCenterConfig.DISPLAYED_NAME = process.env[sanitizedCenterConfig.DISPLAYED_NAME]
+    console.log({ DISPLAYED_NAME:  sanitizedCenterConfig.DISPLAYED_NAME })
     sanitizedCenterConfig.LOGIN_URL = sanitizedCenterConfig.LOGIN_URL.replace('${BASE_URL}', sanitizedCenterConfig.BASE_URL)
     sanitizedCenterConfig.CLASS_RESERVATION_URL = sanitizedCenterConfig.CLASS_RESERVATION_URL.replace('${BASE_URL}', sanitizedCenterConfig.BASE_URL)
     return sanitizedCenterConfig
