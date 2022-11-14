@@ -22,15 +22,17 @@ jobs:
       env:
         cache-name: cache-node-modules
       with:
-        path: node_modules
+        path: |
+          node_modules
+          ~/.cache/ms-playwright
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: Install dependencies
+    - name: Install dependencies
+      if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
       continue-on-error: true
       run: npm install
 

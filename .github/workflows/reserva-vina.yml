@@ -14,12 +14,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 18.x
+        cache: 'npm'
 
     - name: Cache node modules
       id: cache-npm
       uses: actions/cache@v3
       env:
-        cache-name: cache-node-modules
+        cache-name: cache-node-modules-and-playwright
       with:
         path: |
           node_modules

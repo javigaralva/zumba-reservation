@@ -14,6 +14,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 18.x
+        cache: 'npm'
 
     - name: Cache node modules
       id: cache-npm
@@ -30,8 +31,8 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      name: Install dependencies
+    - name: Install dependencies
+      if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
       continue-on-error: true
       run: npm install
 
