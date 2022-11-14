@@ -23,7 +23,7 @@ export function isState(state) {
     return configContent.state === state
 }
 
-function readConfig() {
+export function readConfig() {
     return JSON.parse(fs.readFileSync(CONFIG_JSON_FILE, 'utf-8'))
 }
 

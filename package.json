@@ -7,8 +7,8 @@
     "on": "node ./scripts/set-state.js ON",
     "off": "node ./scripts/set-state.js OFF",
     "state": "node ./scripts/get-state.js",
-    "vina": "node ./scripts/reserva-vina.js",
-    "dehesa": "node ./scripts/reserva-dehesa.js"
+    "vina": "node ./scripts/book.js vina",
+    "dehesa": "node ./scripts/book.js dehesa"
   },
   "keywords": [],
   "author": "javigaralva",

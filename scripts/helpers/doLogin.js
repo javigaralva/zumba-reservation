@@ -1,8 +1,8 @@
 
-export default async function doLogin({ page, user, password }) {
+export default async function doLogin({ page, user, password, url }) {
     console.log('Haciendo login...')
 
-    await page.getByRole('link', { name: 'Acceso Usuarios' }).click()
+    await page.goto(url)
 
     await page.getByLabel('Usuario').click()
 
