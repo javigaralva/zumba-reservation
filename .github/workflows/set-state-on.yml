@@ -37,8 +37,10 @@ jobs:
       env:
         USER_VINA: ${{ secrets.USER_VINA }}
         PASSWORD_VINA: ${{ secrets.PASSWORD_VINA }}
+        DISPLAYED_NAME_VINA: ${{ secrets.DISPLAYED_NAME_VINA }}
         USER_DEHESA: ${{ secrets.USER_DEHESA }}
         PASSWORD_DEHESA: ${{ secrets.PASSWORD_DEHESA }}
+        DISPLAYED_NAME_DEHESA: ${{ secrets.DISPLAYED_NAME_DEHESA }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         USERS_TO_NOTIFY: ${{ secrets.USERS_TO_NOTIFY }}
 
