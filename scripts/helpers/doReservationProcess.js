@@ -15,6 +15,7 @@ export default async function doReservationProcess({
     HEADLESS = true,
     USER,
     PASSWORD,
+    DISPLAYED_NAME,
     LOGIN_URL,
     CLASS_RESERVATION_URL,
     ZUMBA_SELECTOR_CLASS,
@@ -35,7 +36,7 @@ export default async function doReservationProcess({
     let step = `Comenzando proceso de reserva para ${ID}...`
     try {
         step = 'doLogin'
-        await doLogin({ page, user: USER, password: PASSWORD, url: LOGIN_URL })
+        await doLogin({ page, user: USER, password: PASSWORD, url: LOGIN_URL, displayedName: DISPLAYED_NAME })
 
         step = 'goToReservation'
         await goToReservation({ page, url: CLASS_RESERVATION_URL })
