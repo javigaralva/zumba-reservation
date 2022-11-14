@@ -1,3 +1,30 @@
 {
-  "state": "ON"
+  "state": "ON",
+  "vina": {
+    "ID" : "LA VIÑA",
+    "USER" : "USER_VINA",
+    "PASSWORD" : "PASSWORD_VINA",
+    "BASE_URL" : "https://vinafitness.deporsite.net",
+    "LOGIN_URL" : "${BASE_URL}/login",
+    "CLASS_RESERVATION_URL" : "${BASE_URL}/reserva-clases?IdGrupoActividad=3",
+    "HAS_TO_CHOOSE_A_PLACE" : true,
+    "ZUMBA_SELECTOR_CLASS" : ".clase-nombre-ZUMBA",
+    "CLASSES" : [
+      { "DAY": 1, "HOUR": 18, "MINUTE": 0, "SECOND": 0 },
+      { "DAY": 3, "HOUR": 19, "MINUTE": 0, "SECOND": 0 }
+    ]
+  },
+  "dehesa": {
+    "ID" : "DEHESA VIEJA",
+    "USER" : "USER_DEHESA",
+    "PASSWORD" : "PASSWORD_DEHESA",
+    "BASE_URL" : "https://reservas.ssreyes.org",
+    "LOGIN_URL" : "${BASE_URL}/login",
+    "CLASS_RESERVATION_URL" : "${BASE_URL}/reserva-clases",
+    "HAS_TO_CHOOSE_A_PLACE" : false,
+    "ZUMBA_SELECTOR_CLASS" : ".clase-nombre-ZUMBA-",
+    "CLASSES" : [
+      { "DAY": 1, "HOUR": 20, "MINUTE": 0, "SECOND": 0 }
+    ]
+  }
 }
