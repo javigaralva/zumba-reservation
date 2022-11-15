@@ -10,6 +10,10 @@
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases?IdGrupoActividad=3",
     "HAS_TO_CHOOSE_A_PLACE": true,
     "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ZUMBA",
+    "SCHEDULERS": [
+      "0 0 18 * * 0",
+      "0 0 19 * * 2"
+    ],
     "CLASSES": [
       {
         "DAY": 1,
@@ -35,6 +39,9 @@
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
     "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ZUMBA-",
+    "SCHEDULERS": [
+      "0 0 22 * * 0"
+    ],
     "CLASSES": [
       {
         "DAY": 1,
