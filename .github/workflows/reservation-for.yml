@@ -1,0 +1,49 @@
+name: Reservation for ...
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reservationVina:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js version 18.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 18.x
+        cache: 'npm'
+
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-node-modules-and-playwright
+      with:
+        path: |
+          node_modules
+          ~/.cache/ms-playwright
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install dependencies
+      if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      continue-on-error: true
+      run: npm install
+
+    - name: Reservation for ${{ github.event.inputs.placement }}
+      run: npm run ${{ github.event.inputs.placement }}
+      env:
+        USER_VINA: ${{ secrets.USER_VINA }}
+        PASSWORD_VINA: ${{ secrets.PASSWORD_VINA }}
+        DISPLAYED_NAME_VINA: ${{ secrets.DISPLAYED_NAME_VINA }}
+        USER_DEHESA: ${{ secrets.USER_DEHESA }}
+        PASSWORD_DEHESA: ${{ secrets.PASSWORD_DEHESA }}
+        DISPLAYED_NAME_DEHESA: ${{ secrets.DISPLAYED_NAME_DEHESA }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        USERS_TO_NOTIFY: ${{ secrets.USERS_TO_NOTIFY }}
