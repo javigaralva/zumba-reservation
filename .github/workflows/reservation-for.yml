@@ -2,6 +2,15 @@ name: Reservation for ...
 
 on:
   workflow_dispatch:
+    inputs:
+      placement:
+        description: Where do you need to do de reservation?
+        type: choice
+        required: true
+        options:
+          - vina
+          - dehesa
+
 
 jobs:
   reservationVina:
