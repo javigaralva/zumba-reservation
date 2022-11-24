@@ -11,9 +11,8 @@ on:
           - vina
           - dehesa
 
-
 jobs:
-  reservationVina:
+  reservation:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +24,7 @@ jobs:
         node-version: 18.x
         cache: 'npm'
 
-    - name: Cache node modules
+    - name: Cache node modules and Playwright binaries
       id: cache-npm
       uses: actions/cache@v3
       env:
