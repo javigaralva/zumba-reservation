@@ -10,6 +10,8 @@ import chooseEmptyPlaceAndReserveIt from './chooseEmptyPlaceAndReserveIt.js'
 import checkIfStateIsOnOrExit from './checkIfStateIsOnOrExit.js'
 import { exitOk, exitWithError } from './exit.js'
 
+let step
+
 export default async function doReservationProcess({
     ID,
     HEADLESS = true,
@@ -20,7 +22,9 @@ export default async function doReservationProcess({
     CLASS_RESERVATION_URL,
     ZUMBA_SELECTOR_CLASS,
     CLASSES,
-    HAS_TO_CHOOSE_A_PLACE = false
+    HAS_TO_CHOOSE_A_PLACE = false,
+    MS_TO_FINISH_RETRYING = 5 * 60_000,
+    MS_TO_WAIT_AFTER_RETRY = 0
 }) {
 
     await checkIfStateIsOnOrExit()
@@ -33,7 +37,7 @@ export default async function doReservationProcess({
 
     const page = await browser.newPage()
 
-    let step = `Comenzando proceso de reserva para ${ID}...`
+    step = `Comenzando proceso de reserva para ${ID}...`
     try {
         step = 'doLogin'
         await doLogin({ page, user: USER, password: PASSWORD, url: LOGIN_URL, displayedName: DISPLAYED_NAME })
@@ -52,8 +56,7 @@ export default async function doReservationProcess({
             await chooseEmptyPlaceAndReserveIt({ page })
         }
 
-        step = 'finishReservation'
-        await finishReservation({ page })
+        await finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY })
 
     } catch (error) {
         await exitWithError({ page, error, text: `Error en el proceso de reserva de ${ID}. Step: '${step}'` })
@@ -61,3 +64,34 @@ export default async function doReservationProcess({
 
     await exitOk()
 }
+
+
+async function finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY }) {
+    const startTime = Date.now()
+    let retryNum = 0
+    while (true) {
+        const stepSuffix = retryNum > 0 ? 'Retrying' + retryNum : ''
+
+        step = 'finishReservation' + stepSuffix
+        const reservationError = await finishReservation({ page })
+        if (!reservationError) {
+            break
+        }
+
+        retryNum++
+
+        const elapsedTime = Date.now() - startTime
+        if (elapsedTime >= MS_TO_FINISH_RETRYING) {
+            await exitWithError({ page, text: `Excedido el tiempo de re-intentos (${MS_TO_FINISH_RETRYING}ms) en el proceso de reserva de ${ID}. Step: '${step}'. Reintentos: ${retryNum}` })
+        }
+
+        page.waitForTimeout(MS_TO_WAIT_AFTER_RETRY)
+
+        console.log(`Retrying ${retryNum}...`)
+        step = 'reloading' + stepSuffix
+        await page.reload()
+
+    }
+    return step
+}
+
