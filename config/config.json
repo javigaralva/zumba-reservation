@@ -11,8 +11,8 @@
     "HAS_TO_CHOOSE_A_PLACE": true,
     "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ZUMBA",
     "SCHEDULERS": [
-      "50 0 18 * * 0",
-      "50 0 19 * * 2"
+      "0 58 17 * * 0",
+      "0 58 18 * * 2"
     ],
     "CLASSES": [
       {
