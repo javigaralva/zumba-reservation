@@ -51,12 +51,13 @@ export default async function doReservationProcess({
         step = 'inscribeInZumba'
         await inscribeInZumba({ zumbaSelectorClass: ZUMBA_SELECTOR_CLASS, day: tomorrow, page })
 
+        let placeFoundData
         if (HAS_TO_CHOOSE_A_PLACE) {
             step = 'chooseEmptyPlaceAndReserveIt'
-            await chooseEmptyPlaceAndReserveIt({ page })
+            placeFoundData = await chooseEmptyPlaceAndReserveIt({ page })
         }
 
-        await finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY })
+        await finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
 
     } catch (error) {
         await exitWithError({ page, error, text: `Error en el proceso de reserva de ${ID}. Step: '${step}'` })
@@ -66,14 +67,14 @@ export default async function doReservationProcess({
 }
 
 
-async function finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY }) {
+async function finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData }) {
     const startTime = Date.now()
     let retryNum = 0
     while (true) {
         const stepSuffix = retryNum > 0 ? 'Retrying' + retryNum : ''
 
         step = 'finishReservation' + stepSuffix
-        const reservationError = await finishReservation({ page })
+        const reservationError = await finishReservation({ page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
         if (!reservationError) {
             break
         }

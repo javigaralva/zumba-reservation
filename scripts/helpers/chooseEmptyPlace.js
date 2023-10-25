@@ -7,6 +7,7 @@ export default async function chooseEmptyPlace({ page }) {
     const placesOrder = [...new Set([...preferencePlacesOrder, ...allPlacesNumbers])]
 
     let placeFound
+    let placeNumberFound
     for (const placeNumber of placesOrder) {
         const place = await page.getByRole('cell', { name: placeNumber }).getByText(placeNumber).first()
         const placeClasses = await place.getAttribute('class')
@@ -16,11 +17,15 @@ export default async function chooseEmptyPlace({ page }) {
         } else if (placeClasses) {
             console.log(`Encontrado lugar libre: ${placeNumber}`)
             placeFound = place
+            placeNumberFound = placeNumber
             break
         }
     }
     if (!placeFound) {
         await exitWithError({ page, text: 'No se ha encontrado hueco' })
     }
-    return placeFound
+    return {
+        placeFound,
+        placeNumberFound
+    }
 }
