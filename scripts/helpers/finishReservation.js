@@ -1,5 +1,5 @@
 import { exitWithError } from './exit.js'
-import { notifyUsers } from './notifyUsers.js'
+import notifyUsers from './notifyUsers.js'
 
 const FINISH_RESERVATION_ERRORS = {
     INVALID_RESERVATION_TIME_1_DAY: 'INVALID_RESERVATION_TIME_1_DAY'
