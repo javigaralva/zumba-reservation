@@ -35,7 +35,9 @@ jobs:
       if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
       continue-on-error: true
       run: npm install
-      
+
     - name: Install Playwright Browsers
+      if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      continue-on-error: true
       run: npx playwright install --with-deps
 
