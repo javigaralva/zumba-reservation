@@ -1,7 +1,7 @@
 import chooseEmptyPlace from './chooseEmptyPlace.js'
 
-export default async function chooseEmptyPlaceAndReserveIt({ page }) {
-    const emptyPlace = await chooseEmptyPlace({ page })
+export default async function chooseEmptyPlaceAndReserveIt({ browser, page }) {
+    const emptyPlace = await chooseEmptyPlace({ browser, page })
     const { placeFound } = emptyPlace
 
     await placeFound.click()

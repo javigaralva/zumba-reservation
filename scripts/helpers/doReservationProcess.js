@@ -33,48 +33,51 @@ export default async function doReservationProcess({
 
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
+    HEADLESS = false
     const browser = await playwright.chromium.launch({ headless: HEADLESS })
 
-    const page = await browser.newPage()
+    const context = await browser.newContext({ recordVideo: { dir: './videos' } });
+    
+    const page = await context.newPage()
 
     step = `Comenzando proceso de reserva para ${ID}...`
     try {
         step = 'doLogin'
-        await doLogin({ page, user: USER, password: PASSWORD, url: LOGIN_URL, displayedName: DISPLAYED_NAME })
+        await doLogin({ browser, page, user: USER, password: PASSWORD, url: LOGIN_URL, displayedName: DISPLAYED_NAME })
 
         step = 'goToReservation'
-        await goToReservation({ page, url: CLASS_RESERVATION_URL })
+        await goToReservation({ browser, page, url: CLASS_RESERVATION_URL })
 
         step = 'goToCorrectCalendarPage'
-        await goToCorrectCalendarPage({ page, dayToGo: tomorrow })
+        await goToCorrectCalendarPage({ browser, page, dayToGo: tomorrow })
 
         step = 'inscribeInZumba'
-        await inscribeInZumba({ zumbaSelectorClass: ZUMBA_SELECTOR_CLASS, day: tomorrow, page })
+        await inscribeInZumba({ browser, zumbaSelectorClass: ZUMBA_SELECTOR_CLASS, day: tomorrow, page })
 
         let placeFoundData
         if (HAS_TO_CHOOSE_A_PLACE) {
             step = 'chooseEmptyPlaceAndReserveIt'
-            placeFoundData = await chooseEmptyPlaceAndReserveIt({ page })
+            placeFoundData = await chooseEmptyPlaceAndReserveIt({ browser, page })
         }
 
-        await finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
+        await finishReservationWithRetries({ browser, page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
 
     } catch (error) {
-        await exitWithError({ page, error, text: `Error en el proceso de reserva de ${ID}. Step: '${step}'` })
+        await exitWithError({ browser, page, error, text: `Error en el proceso de reserva de ${ID}. Step: '${step}'` })
     }
 
-    await exitOk()
+    await exitOk({ browser })
 }
 
 
-async function finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData }) {
+async function finishReservationWithRetries({ browser, page, MS_TO_FINISH_RETRYING, ID, MS_TO_WAIT_AFTER_RETRY, HAS_TO_CHOOSE_A_PLACE, placeFoundData }) {
     const startTime = Date.now()
     let retryNum = 0
     while (true) {
         const stepSuffix = retryNum > 0 ? 'Retrying' + retryNum : ''
 
         step = 'finishReservation' + stepSuffix
-        const reservationError = await finishReservation({ page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
+        const reservationError = await finishReservation({ browser, page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData })
         if (!reservationError) {
             break
         }
@@ -83,7 +86,7 @@ async function finishReservationWithRetries({ page, MS_TO_FINISH_RETRYING, ID, M
 
         const elapsedTime = Date.now() - startTime
         if (elapsedTime >= MS_TO_FINISH_RETRYING) {
-            await exitWithError({ page, text: `Excedido el tiempo de re-intentos (${MS_TO_FINISH_RETRYING}ms) en el proceso de reserva de ${ID}. Step: '${step}'. Reintentos: ${retryNum}` })
+            await exitWithError({ browser, page, text: `Excedido el tiempo de re-intentos (${MS_TO_FINISH_RETRYING}ms) en el proceso de reserva de ${ID}. Step: '${step}'. Reintentos: ${retryNum}` })
         }
 
         page.waitForTimeout(MS_TO_WAIT_AFTER_RETRY)

@@ -1,6 +1,6 @@
 import { exitWithError } from './exit.js'
 
-export default async function doLogin({ page, user, password, url, displayedName }) {
+export default async function doLogin({ browser, page, user, password, url, displayedName }) {
     console.log('Haciendo login...')
 
     await page.goto(url)
@@ -17,6 +17,6 @@ export default async function doLogin({ page, user, password, url, displayedName
 
     const isDisplayedNameVisible = await page.getByRole('link', { name: displayedName }).isVisible()
     if (!isDisplayedNameVisible) {
-        await exitWithError({ page, text: 'No se ha realizado login correctamente. No se ha encontrado el nombre del usuario en el profile.' })
+        await exitWithError({ browser, page, text: 'No se ha realizado login correctamente. No se ha encontrado el nombre del usuario en el profile.' })
     }
 }

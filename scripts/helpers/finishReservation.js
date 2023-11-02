@@ -5,7 +5,7 @@ const FINISH_RESERVATION_ERRORS = {
     INVALID_RESERVATION_TIME_1_DAY: 'INVALID_RESERVATION_TIME_1_DAY'
 }
 
-export default async function finishReservation({ page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData = {} }) {
+export default async function finishReservation({ browser, page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData = {} }) {
     console.log('Reservando plaza de zumba...')
 
     await page.getByText('Reservar').nth(1).click()
@@ -21,7 +21,7 @@ export default async function finishReservation({ page, ID, HAS_TO_CHOOSE_A_PLAC
                 console.log(errorText)
                 return FINISH_RESERVATION_ERRORS.INVALID_RESERVATION_TIME_1_DAY
             }
-            await exitWithError({ page, text: 'No se puede realizar la reserva: ' + errorText })
+            await exitWithError({ browser, page, text: 'No se puede realizar la reserva: ' + errorText })
         }
     }
     {

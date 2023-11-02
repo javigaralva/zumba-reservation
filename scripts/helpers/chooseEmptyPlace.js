@@ -1,6 +1,6 @@
 import { exitWithError } from './exit.js'
 
-export default async function chooseEmptyPlace({ page }) {
+export default async function chooseEmptyPlace({ browser, page }) {
     console.log('Eligiendo un sitio libre...')
     const allPlacesNumbers = Array.from({ length: 50 }, (_, i) => String(i + 1))
     const preferencePlacesOrder = ['50', '40', '39', '29', '49', '48', '47', '46', '45', '44', '43', '42', '41', '38', '37', '35', '29', '28', '34', '33', '31', '30', '21', '27', '20', '19', '14', '13', '12', '11', '10', '1', '2', '26', '25', '24', '17', '16', '15', '3', '4', '5', '6', '7', '8', '9']
@@ -22,7 +22,7 @@ export default async function chooseEmptyPlace({ page }) {
         }
     }
     if (!placeFound) {
-        await exitWithError({ page, text: 'No se ha encontrado hueco' })
+        await exitWithError({ browser, page, text: 'No se ha encontrado hueco' })
     }
     return {
         placeFound,
