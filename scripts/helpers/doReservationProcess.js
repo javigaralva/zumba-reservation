@@ -35,7 +35,7 @@ export default async function doReservationProcess({
 
     HEADLESS = true
     const browser = await playwright.chromium.launch({ headless: HEADLESS })
-    const context = await browser.newContext({ recordVideo: { dir: './videos' } });
+    const context = await browser.newContext({ locale: 'es-ES', recordVideo: { dir: './videos' } });
     const page = await context.newPage()
 
     step = `Comenzando proceso de reserva para ${ID}...`
