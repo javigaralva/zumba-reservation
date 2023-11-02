@@ -3,7 +3,7 @@ import { exitWithError } from './exit.js'
 
 export default async function getTomorrowOrExit({id, classes = []}) {
     const tomorrow = moment().add(1, 'day')
-
+    return tomorrow
     const classFound = classes.find(({ DAY }) => tomorrow.day() === DAY)
     if (!classFound) {
         const days = classes.map(({ DAY }) => getDayOfWeekAsString(DAY)).join(' ni ')
