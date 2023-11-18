@@ -9,7 +9,7 @@ export default async function goToCorrectCalendarPage({ browser, page, dayToGo }
         const dateSelector = await dateLocator.innerText()
         const [strDayFrom, strDayTo] = dateSelector.split('\n')[1].split(' - ')
         const dayFrom = moment(strDayFrom, 'DD/MM/YYYY')
-        const dayTo = moment(strDayTo, 'DD/MM/YYYY')
+        const dayTo = moment(strDayTo, 'DD/MM/YYYY').add(1, "day")
 
         if (dayToGo.isBetween(dayFrom, dayTo)) {
             console.log('Estamos en la página del calendario correcta')
