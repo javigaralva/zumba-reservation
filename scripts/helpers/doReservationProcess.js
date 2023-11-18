@@ -34,7 +34,7 @@ export default async function doReservationProcess({
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
     HEADLESS = true
-    const browser = await playwright.chromium.launch({ headless: HEADLESS })
+    const browser = await playwright.webkit.launch({ headless: HEADLESS })
     const context = await browser.newContext({ locale: 'es-ES', recordVideo: { dir: './videos' } });
     const page = await context.newPage()
 
