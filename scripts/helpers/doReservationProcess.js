@@ -37,7 +37,11 @@ export default async function doReservationProcess({
     const browserType = ['firefox', 'chromium', 'webkit'][0]
     console.log(`Using ${browserType} browser`)
     const browser = await playwright[browserType].launch({ headless: HEADLESS })
-    const context = await browser.newContext({ locale: 'es-ES', recordVideo: { dir: './videos' } });
+    const context = await browser.newContext({ 
+        viewport: { width: 500, height: 1080 } ,
+        locale: 'es-ES', 
+        recordVideo: { dir: './videos' } 
+    });
     const page = await context.newPage()
 
     step = `Comenzando proceso de reserva para ${ID}...`
