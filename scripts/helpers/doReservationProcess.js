@@ -1,4 +1,7 @@
-import playwright from 'playwright'
+import { chromium } from 'playwright-extra'
+import stealthPlugin from 'puppeteer-extra-plugin-stealth'
+
+chromium.use(stealthPlugin())
 
 import getTomorrowOrExit from './getTomorrowOrExit.js'
 import doLogin from './doLogin.js'
@@ -34,9 +37,7 @@ export default async function doReservationProcess({
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
     HEADLESS = true
-    // Cambiamos a Chromium y añadimos argumentos para deshabilitar seguridad web (CORS/ORB)
-    const browserType = 'chromium'
-    console.log(`Using ${browserType} browser`)
+    console.log(`Using chromium browser with Stealth Plugin`)
 
     const launchOptions = { 
         headless: HEADLESS,
@@ -47,7 +48,6 @@ export default async function doReservationProcess({
             '--disable-gpu',
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-blink-features=AutomationControlled' // Ocultar que es un bot
         ]
     }
 
@@ -58,7 +58,7 @@ export default async function doReservationProcess({
         }
     }
 
-    const browser = await playwright[browserType].launch(launchOptions)
+    const browser = await chromium.launch(launchOptions)
     const context = await browser.newContext({ 
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         viewport: { width: 1280, height: 800 },
