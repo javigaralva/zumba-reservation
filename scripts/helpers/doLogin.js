@@ -10,9 +10,9 @@ export default async function doLogin({ browser, page, user, password, url, disp
     await page.getByLabel('Usuario').press('Tab')
 
     await page.getByLabel('Contraseña').fill(password)
-    await page.getByLabel('Contraseña').press('Enter')
+    // await page.getByLabel('Contraseña').press('Enter')
 
-    // await page.getByRole('button', { name: 'Acceder' }).click()
+    await page.locator('#enviarFormulario').click()
 
     await page.getByRole('link', { name: displayedName, includeHidden: true }).waitFor({ state: "attached" })
     
