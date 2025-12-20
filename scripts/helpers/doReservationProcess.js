@@ -37,7 +37,8 @@ export default async function doReservationProcess({
     // Cambiamos a Chromium y añadimos argumentos para deshabilitar seguridad web (CORS/ORB)
     const browserType = 'chromium'
     console.log(`Using ${browserType} browser`)
-    const browser = await playwright[browserType].launch({ 
+
+    const launchOptions = { 
         headless: HEADLESS,
         args: [
             '--disable-web-security',
@@ -48,7 +49,16 @@ export default async function doReservationProcess({
             '--disable-setuid-sandbox',
             '--disable-blink-features=AutomationControlled' // Ocultar que es un bot
         ]
-    })
+    }
+
+    if (process.env.USE_TOR === 'true') {
+        console.log('Using Tor proxy...');
+        launchOptions.proxy = {
+            server: 'socks5://127.0.0.1:9050'
+        }
+    }
+
+    const browser = await playwright[browserType].launch(launchOptions)
     const context = await browser.newContext({ 
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         viewport: { width: 1280, height: 800 },

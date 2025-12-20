@@ -39,8 +39,15 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Install Tor
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tor
+          sudo service tor start
+
       - run: npm run dehesa
         env:
+          USE_TOR: "true"
           USER_VINA: ${{ secrets.USER_VINA }}
           PASSWORD_VINA: ${{ secrets.PASSWORD_VINA }}
           DISPLAYED_NAME_VINA: ${{ secrets.DISPLAYED_NAME_VINA }}
