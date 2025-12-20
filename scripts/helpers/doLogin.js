@@ -12,7 +12,19 @@ export default async function doLogin({ browser, page, user, password, url, disp
     await page.getByLabel('Contraseña').fill(password)
     // await page.getByLabel('Contraseña').press('Enter')
 
-    await page.locator('#enviarFormulario').click()
+    console.log('Enviando formulario de login...')
+    
+    // Intentamos disparar el login ejecutando el JS del sitio directamente
+    // Esto evita problemas si el botón está tapado o el click de Playwright no se registra
+    await page.evaluate(() => {
+        try {
+            // @ts-ignore
+            Componentes_Login.enviaFormulario();
+        } catch (e) {
+            console.log('Falló la llamada directa, intentando click nativo...');
+            document.getElementById('enviarFormulario').click();
+        }
+    });
 
     // Esperar a que la página cargue completamente tras el login
     await page.waitForLoadState('networkidle')
