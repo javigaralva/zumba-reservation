@@ -38,14 +38,14 @@
     "LOGIN_URL": "${BASE_URL}/login",
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
-    "ZUMBA_SELECTOR_CLASS": ".clase-nombre-YOGA",
+    "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ENTRENAMIENTO-TÉCNICO-NADO",
     "SCHEDULERS": [
       "0 0 22 * * 0"
     ],
     "CLASSES": [
       {
-        "DAY": 5,
-        "HOUR": 11,
+        "DAY": 7,
+        "HOUR": 9,
         "MINUTE": 0,
         "SECOND": 0
       }
