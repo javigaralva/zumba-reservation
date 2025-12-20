@@ -74,6 +74,39 @@ export default async function doReservationProcess({
     });
     const page = await context.newPage()
 
+    // INTERCEPTOR DE RED:
+    // Como resources.deporsite.net bloquea la IP de GitHub (403), redirigimos las librerías esenciales
+    // a CDNs públicos (Cloudflare) para que la página funcione.
+    await page.route('**/*', route => {
+        const url = route.request().url();
+        
+        if (url.includes('resources.deporsite.net')) {
+            let newUrl = null;
+
+            if (url.includes('jquery-3.5.0.min.js')) {
+                newUrl = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js';
+            } else if (url.includes('bootstrap.min.js')) {
+                newUrl = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js';
+            } else if (url.includes('bootstrap.min.css')) {
+                newUrl = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css';
+            } else if (url.includes('moment.min.js')) {
+                newUrl = 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js';
+            }
+
+            if (newUrl) {
+                console.log(`[PROXY] Redirigiendo: ${url} -> ${newUrl}`);
+                return route.continue({ url: newUrl });
+            } else {
+                // Bloquear el resto de recursos de deporsite (fuentes, imágenes, etc.) para que no den error 403
+                // y la página cargue más rápido.
+                console.log(`[PROXY] Bloqueando recurso secundario: ${url}`);
+                return route.abort();
+            }
+        }
+        
+        return route.continue();
+    });
+
     // Aumentamos drásticamente los timeouts porque Tor es muy lento
     page.setDefaultTimeout(120000)
     page.setDefaultNavigationTimeout(120000)
