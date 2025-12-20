@@ -45,7 +45,7 @@ export default async function doReservationProcess({
 
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
-    HEADLESS = false
+    HEADLESS = true
     console.log(`Using chromium browser with Stealth Plugin`)
 
     const launchOptions = { 
