@@ -14,7 +14,10 @@ export default async function doLogin({ browser, page, user, password, url, disp
 
     await page.locator('#enviarFormulario').click()
 
-    await page.getByRole('link', { name: displayedName, includeHidden: true }).waitFor({ state: "attached" })
+    // Esperar a que la página cargue completamente tras el login
+    await page.waitForLoadState('networkidle')
+
+    await page.getByRole('link', { name: displayedName, includeHidden: true }).waitFor({ state: "attached", timeout: 60000 })
     
     // const isDisplayedNameVisible = await link.isVisible()
     // if (!isDisplayedNameVisible) {
