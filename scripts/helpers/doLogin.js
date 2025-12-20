@@ -14,7 +14,7 @@ export default async function doLogin({ browser, page, user, password, url, disp
 
     // await page.getByRole('button', { name: 'Acceder' }).click()
 
-    await page.getByRole('link', { name: displayedName }).waitFor({ state: "visible"})
+    await page.getByRole('link', { name: displayedName, includeHidden: true }).waitFor({ state: "attached" })
     
     // const isDisplayedNameVisible = await link.isVisible()
     // if (!isDisplayedNameVisible) {
