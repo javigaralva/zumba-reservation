@@ -74,6 +74,20 @@ export default async function doReservationProcess({
     });
     const page = await context.newPage()
 
+    // Aumentamos drásticamente los timeouts porque Tor es muy lento
+    page.setDefaultTimeout(120000)
+    page.setDefaultNavigationTimeout(120000)
+
+    // DEBUG: Verificar IP pública para confirmar que Tor funciona
+    try {
+        console.log('Verificando IP pública...');
+        await page.goto('https://api.ipify.org?format=json', { timeout: 60000 });
+        const content = await page.content();
+        console.log(`IP Pública actual: ${content}`);
+    } catch (e) {
+        console.log('No se pudo verificar la IP (posiblemente timeout o bloqueo):', e.message);
+    }
+
     step = `Comenzando proceso de reserva para ${ID}...`
     try {
         step = 'doLogin'

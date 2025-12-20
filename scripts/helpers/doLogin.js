@@ -12,7 +12,30 @@ export default async function doLogin({ browser, page, user, password, url, disp
         console.log(`BROWSER REQUEST FAILED: ${request.url()} - ${request.failure()?.errorText}`);
     });
 
-    await page.goto(url)
+    console.log(`Navegando a ${url} con timeout extendido...`);
+    
+    try {
+        const response = await page.goto(url, { timeout: 120000 })
+        console.log(`Status de respuesta: ${response?.status()}`);
+        console.log(`Título de la página: ${await page.title()}`);
+        
+        // Si el status no es 200, podría ser un bloqueo
+        if (response?.status() === 403) {
+            console.log('ALERTA: Recibido 403 Forbidden. Es probable que la IP esté bloqueada.');
+            const content = await page.content();
+            console.log('Contenido de la página de error:', content.substring(0, 1000));
+        }
+    } catch (e) {
+        console.log(`Error crítico en navegación: ${e.message}`);
+        try {
+            const content = await page.content();
+            console.log('Contenido HTML en el momento del error (posible página en blanco):');
+            console.log(content);
+        } catch (inner) {
+            console.log('No se pudo leer el contenido de la página tras el error.');
+        }
+        throw e;
+    }
 
     await page.getByLabel('Usuario').click()
     await page.getByLabel('Usuario').fill(user)
