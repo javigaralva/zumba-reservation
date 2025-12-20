@@ -40,7 +40,8 @@ export default async function doReservationProcess({
     const context = await browser.newContext({ 
         viewport: { width: 500, height: 1080 } ,
         locale: 'es-ES', 
-        recordVideo: { dir: './videos' } 
+        recordVideo: { dir: './videos' },
+        ignoreHTTPSErrors: true
     });
     const page = await context.newPage()
 
