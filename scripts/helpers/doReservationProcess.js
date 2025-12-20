@@ -45,7 +45,8 @@ export default async function doReservationProcess({
             '--disable-site-isolation-trials',
             '--disable-gpu',
             '--no-sandbox',
-            '--disable-setuid-sandbox'
+            '--disable-setuid-sandbox',
+            '--disable-blink-features=AutomationControlled' // Ocultar que es un bot
         ]
     })
     const context = await browser.newContext({ 
@@ -54,7 +55,12 @@ export default async function doReservationProcess({
         locale: 'es-ES', 
         recordVideo: { dir: './videos' },
         ignoreHTTPSErrors: true,
-        bypassCSP: true // Bypass Content Security Policy
+        bypassCSP: true,
+        extraHTTPHeaders: {
+            'Accept-Language': 'es-ES,es;q=0.9',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'Referer': 'https://reservas.ssreyes.org/'
+        }
     });
     const page = await context.newPage()
 
