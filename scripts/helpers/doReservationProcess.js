@@ -33,12 +33,13 @@ export default async function doReservationProcess({
 
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
-    HEADLESS = true
-    const browserType = ['firefox', 'chromium', 'webkit'][2]
+    HEADLESS = false
+    const browserType = ['firefox', 'chromium', 'webkit'][1]
     console.log(`Using ${browserType} browser`)
     const browser = await playwright[browserType].launch({ headless: HEADLESS })
     const context = await browser.newContext({ 
-        viewport: { width: 500, height: 1080 } ,
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        viewport: { width: 1280, height: 800 },
         locale: 'es-ES', 
         recordVideo: { dir: './videos' },
         ignoreHTTPSErrors: true
