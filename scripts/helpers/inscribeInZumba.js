@@ -5,7 +5,7 @@ export default async function inscribeInZumba({ browser, page, zumbaSelectorClas
 
     const idFecha = day.format('YYYY-MM-DD')
     const idHoraInicio = day.format('HH:mm:ss')
-    const zumbaSelector = `${".clase-nombre-YOGA"}[data-idfecha="${idFecha}"][data-horainicio="11:00:00"]`
+    const zumbaSelector = `${zumbaSelectorClass}[data-idfecha="${idFecha}"][data-horainicio="${idHoraInicio}"]`
     const zumbaLocator = await page.locator(zumbaSelector)
     const zumbaNumOfClasses = await zumbaLocator.count()
     if (zumbaNumOfClasses === 0) {
