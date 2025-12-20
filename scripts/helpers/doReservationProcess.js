@@ -34,15 +34,27 @@ export default async function doReservationProcess({
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
     HEADLESS = true
-    const browserType = ['firefox', 'chromium', 'webkit'][1]
+    // Cambiamos a Chromium y añadimos argumentos para deshabilitar seguridad web (CORS/ORB)
+    const browserType = 'chromium'
     console.log(`Using ${browserType} browser`)
-    const browser = await playwright[browserType].launch({ headless: HEADLESS })
+    const browser = await playwright[browserType].launch({ 
+        headless: HEADLESS,
+        args: [
+            '--disable-web-security',
+            '--disable-features=IsolateOrigins,site-per-process',
+            '--disable-site-isolation-trials',
+            '--disable-gpu',
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
+    })
     const context = await browser.newContext({ 
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         viewport: { width: 1280, height: 800 },
         locale: 'es-ES', 
         recordVideo: { dir: './videos' },
-        ignoreHTTPSErrors: true
+        ignoreHTTPSErrors: true,
+        bypassCSP: true // Bypass Content Security Policy
     });
     const page = await context.newPage()
 
