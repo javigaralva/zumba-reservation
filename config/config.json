@@ -22,7 +22,7 @@
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
     "SCHEDULERS": [
-      "0 58 21 * * 0",
+      "0 30 18 * * 0",
       "0 58 20 * * 1",
       "0 58 21 * * 2",
       "0 58 21 * * 3"
@@ -30,10 +30,10 @@
     "CLASSES": [
       {
         "DAY": 1,
-        "HOUR": 20,
+        "HOUR": 9,
         "MINUTE": 0,
         "SECOND": 0,
-        "SELECTOR_CLASS": ".clase-nombre-ZUMBA-"
+        "SELECTOR_CLASS": ".clase-nombre-ZUMBA-SENIOR"
       },
       {
         "DAY": 2,
