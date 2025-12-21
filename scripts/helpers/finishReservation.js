@@ -6,7 +6,7 @@ const FINISH_RESERVATION_ERRORS = {
 }
 
 export default async function finishReservation({ browser, page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData = {} }) {
-    console.log('Reservando plaza de zumba...')
+    console.log('Reservando plaza...')
 
     console.log("Esperando 5000ms...")
     await page.waitForTimeout(5000)
