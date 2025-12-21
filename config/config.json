@@ -9,26 +9,8 @@
     "LOGIN_URL": "${BASE_URL}/login",
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases?IdGrupoActividad=3",
     "HAS_TO_CHOOSE_A_PLACE": true,
-    "SCHEDULERS": [
-      "0 58 17 * * 0",
-      "0 58 18 * * 2"
-    ],
-    "CLASSES": [
-      {
-        "DAY": 1,
-        "HOUR": 18,
-        "MINUTE": 0,
-        "SECOND": 0,
-        "SELECTOR_CLASS": ".clase-nombre-ZUMBA"
-      },
-      {
-        "DAY": 3,
-        "HOUR": 19,
-        "MINUTE": 0,
-        "SECOND": 0,
-        "SELECTOR_CLASS": ".clase-nombre-ZUMBA"
-      }
-    ]
+    "SCHEDULERS": [],
+    "CLASSES": []
   },
   "dehesa": {
     "ID": "DEHESA VIEJA",
@@ -40,7 +22,8 @@
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
     "SCHEDULERS": [
-      "0 58 19 * * 0"
+      "0 58 19 * * 0",
+      "0 58 18 * * 1"
     ],
     "CLASSES": [
       {
@@ -49,6 +32,13 @@
         "MINUTE": 0,
         "SECOND": 0,
         "SELECTOR_CLASS": ".clase-nombre-ZUMBA-"
+      },
+      {
+        "DAY": 2,
+        "HOUR": 19,
+        "MINUTE": 0,
+        "SECOND": 0,
+        "SELECTOR_CLASS": ".clase-nombre-ZUMBA-STRONG"
       }
     ]
   }
