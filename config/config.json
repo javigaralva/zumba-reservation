@@ -38,14 +38,14 @@
     "LOGIN_URL": "${BASE_URL}/login",
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
-    "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ZUMBA-SENIOR",
+    "ZUMBA_SELECTOR_CLASS": ".clase-nombre-ZUMBA-",
     "SCHEDULERS": [
-      "0 0 22 * * 0"
+      "0 58 19 * * 0"
     ],
     "CLASSES": [
       {
         "DAY": 1,
-        "HOUR": 9,
+        "HOUR": 20,
         "MINUTE": 0,
         "SECOND": 0
       }
