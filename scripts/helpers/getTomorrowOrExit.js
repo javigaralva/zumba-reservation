@@ -15,7 +15,7 @@ export default async function getTomorrowOrExit({id, classes = []}) {
 
     tomorrow.hour(classFound.HOUR).minute(classFound.MINUTE).second(classFound.SECOND)
 
-    return tomorrow
+    return { tomorrow, classFound }
 }
 
 function getDayOfWeekAsString(day) {

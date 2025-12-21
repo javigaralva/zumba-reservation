@@ -7,7 +7,7 @@ import getTomorrowOrExit from './getTomorrowOrExit.js'
 import doLogin from './doLogin.js'
 import goToReservation from './goToReservation.js'
 import goToCorrectCalendarPage from './goToCorrectCalendarPage.js'
-import inscribeInZumba from './inscribeInZumba.js'
+import inscribeInClass from './inscribeInClass.js'
 import finishReservation from './finishReservation.js'
 import chooseEmptyPlaceAndReserveIt from './chooseEmptyPlaceAndReserveIt.js'
 import checkIfStateIsOnOrExit from './checkIfStateIsOnOrExit.js'
@@ -24,7 +24,6 @@ export default async function doReservationProcess({
     DISPLAYED_NAME,
     LOGIN_URL,
     CLASS_RESERVATION_URL,
-    ZUMBA_SELECTOR_CLASS,
     CLASSES,
     HAS_TO_CHOOSE_A_PLACE = false,
     MS_TO_FINISH_RETRYING = 5 * 60_000,
@@ -33,11 +32,12 @@ export default async function doReservationProcess({
 
     await checkIfStateIsOnOrExit()
 
-    const tomorrow = await getTomorrowOrExit({id: ID, classes: CLASSES})
+    const { tomorrow, classFound } = await getTomorrowOrExit({id: ID, classes: CLASSES})
+    const { SELECTOR_CLASS } = classFound
 
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)
 
-    HEADLESS = true
+    HEADLESS = false
     console.log(`Using chromium browser with Stealth Plugin`)
 
     const launchOptions = { 
@@ -72,8 +72,8 @@ export default async function doReservationProcess({
         step = 'goToCorrectCalendarPage'
         await goToCorrectCalendarPage({ browser, page, dayToGo: tomorrow })
 
-        step = 'inscribeInZumba'
-        await inscribeInZumba({ browser, zumbaSelectorClass: ZUMBA_SELECTOR_CLASS, day: tomorrow, page })
+        step = 'inscribeInClass'
+        await inscribeInClass({ browser, selectorClass: SELECTOR_CLASS, day: tomorrow, page })
 
         let placeFoundData
         if (HAS_TO_CHOOSE_A_PLACE) {
