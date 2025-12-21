@@ -37,6 +37,7 @@ jobs:
         run: npm install
 
       - name: Install Playwright Browsers
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         run: npx playwright install --with-deps
 
       - run: npm run dehesa
