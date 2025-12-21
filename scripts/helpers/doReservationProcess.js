@@ -67,8 +67,6 @@ export default async function doReservationProcess({
     const page = await context.newPage()
 
     // INTERCEPTOR DE RED:
-    // Como resources.deporsite.net bloquea la IP de GitHub (403), servimos los recursos estáticos
-    // desde local.
     await page.route('**/*', async route => {
         const url = route.request().url();
         
@@ -171,8 +169,6 @@ export default async function doReservationProcess({
                     return route.abort();
                 }
             } else {
-                // Bloquear el resto de recursos de deporsite (fuentes, imágenes, etc.) para que no den error 403
-                // y la página cargue más rápido.
                 console.log(`[PROXY] Bloqueando recurso secundario: ${url}`);
                 return route.abort();
             }
