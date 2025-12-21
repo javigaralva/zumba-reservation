@@ -23,7 +23,9 @@
     "HAS_TO_CHOOSE_A_PLACE": false,
     "SCHEDULERS": [
       "0 58 19 * * 0",
-      "0 58 18 * * 1"
+      "0 58 18 * * 1",
+      "0 58 19 * * 2",
+      "0 58 19 * * 3"
     ],
     "CLASSES": [
       {
@@ -39,6 +41,20 @@
         "MINUTE": 0,
         "SECOND": 0,
         "SELECTOR_CLASS": ".clase-nombre-ZUMBA-STRONG"
+      },
+      {
+        "DAY": 3,
+        "HOUR": 20,
+        "MINUTE": 0,
+        "SECOND": 0,
+        "SELECTOR_CLASS": ".clase-nombre-ESTILOS"
+      },
+      {
+        "DAY": 4,
+        "HOUR": 20,
+        "MINUTE": 0,
+        "SECOND": 0,
+        "SELECTOR_CLASS": ".clase-nombre-STEP-+-DANCE"
       }
     ]
   }
