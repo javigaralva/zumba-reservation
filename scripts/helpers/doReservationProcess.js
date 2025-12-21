@@ -62,7 +62,7 @@ export default async function doReservationProcess({
     const browser = await chromium.launch(launchOptions)
     const context = await browser.newContext({ 
         // locale: 'es-ES', 
-        recordVideo: { dir: './videos' } 
+        // recordVideo: { dir: './videos' } 
     });
     const page = await context.newPage()
 
@@ -156,7 +156,7 @@ export default async function doReservationProcess({
 
             if (localPath) {
                 const fullPath = path.join(resourcesDir, localPath);
-                console.log(`[PROXY] Sirviendo local: ${url} -> ${localPath}`);
+                // console.log(`[PROXY] Sirviendo local: ${url} -> ${localPath}`);
                 try {
                     const body = fs.readFileSync(fullPath);
                     return route.fulfill({ 

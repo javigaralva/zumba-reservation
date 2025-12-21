@@ -34,7 +34,7 @@ async function exit({ browser, page, error, text, exitCode, takeScreenShot, noti
         }
     }
 
-    const videoPath = await page.video().path()   
+    const videoPath = await page?.video()?.path()
     await browser?.close()
 
     await notifyUsers({ documentUrl: videoPath })

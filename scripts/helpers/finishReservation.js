@@ -8,8 +8,6 @@ const FINISH_RESERVATION_ERRORS = {
 export default async function finishReservation({ browser, page, ID, HAS_TO_CHOOSE_A_PLACE, placeFoundData = {} }) {
     console.log('Reservando plaza de zumba...')
 
-    console.log("XXXXXXXX1")
-
     console.log("Esperando 5000ms...")
     await page.waitForTimeout(5000)
 
@@ -30,19 +28,10 @@ export default async function finishReservation({ browser, page, ID, HAS_TO_CHOO
     } else {
         console.log("ERROR: No se encontró ningún botón 'Reservar'")
     }
-
-    console.log("XXXXXXXX2")
-    
-    // Esperamos a que la navegación ocurra y la página cargue
-    try {
-        await page.waitForLoadState('domcontentloaded', { timeout: 60000 })
-    } catch (e) {
-        console.log('Timeout esperando domcontentloaded, continuamos...')
-    }
     
     console.log("Esperando 5000ms...")
     await page.waitForTimeout(5000)
-
+  
     {
         const errorLocator = await page.locator('.box-datos-error')
         const isErrorLocatorVisible = await errorLocator.isVisible()
