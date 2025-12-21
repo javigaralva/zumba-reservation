@@ -1,6 +1,5 @@
 import { chromium } from 'playwright-extra'
 import stealthPlugin from 'puppeteer-extra-plugin-stealth'
-import fetch from 'node-fetch'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -60,26 +59,10 @@ export default async function doReservationProcess({
         ]
     }
 
-    if (process.env.USE_TOR === 'true') {
-        console.log('Using Tor proxy...');
-        launchOptions.proxy = {
-            server: 'socks5://127.0.0.1:9050'
-        }
-    }
-
     const browser = await chromium.launch(launchOptions)
     const context = await browser.newContext({ 
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        viewport: { width: 1280, height: 800 },
-        locale: 'es-ES', 
-        recordVideo: { dir: './videos' },
-        ignoreHTTPSErrors: true,
-        bypassCSP: true,
-        extraHTTPHeaders: {
-            'Accept-Language': 'es-ES,es;q=0.9',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Referer': 'https://reservas.ssreyes.org/'
-        }
+        // locale: 'es-ES', 
+        recordVideo: { dir: './videos' } 
     });
     const page = await context.newPage()
 
@@ -197,20 +180,6 @@ export default async function doReservationProcess({
         
         return route.continue();
     });
-
-    // Aumentamos drásticamente los timeouts porque Tor es muy lento
-    page.setDefaultTimeout(120000)
-    page.setDefaultNavigationTimeout(120000)
-
-    // DEBUG: Verificar IP pública para confirmar que Tor funciona
-    try {
-        console.log('Verificando IP pública...');
-        await page.goto('https://api.ipify.org?format=json', { timeout: 60000 });
-        const content = await page.content();
-        console.log(`IP Pública actual: ${content}`);
-    } catch (e) {
-        console.log('No se pudo verificar la IP (posiblemente timeout o bloqueo):', e.message);
-    }
 
     step = `Comenzando proceso de reserva para ${ID}...`
     try {
