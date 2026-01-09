@@ -27,12 +27,13 @@ export default async function doReservationProcess({
     CLASSES,
     HAS_TO_CHOOSE_A_PLACE = false,
     MS_TO_FINISH_RETRYING = 5 * 60_000,
-    MS_TO_WAIT_AFTER_RETRY = 0
+    MS_TO_WAIT_AFTER_RETRY = 0,
+    classId
 }) {
 
     await checkIfStateIsOnOrExit()
 
-    const { tomorrow, classFound } = await getTomorrowOrExit({id: ID, classes: CLASSES})
+    const { tomorrow, classFound } = await getTomorrowOrExit({id: ID, classes: CLASSES, classId})
     const { SELECTOR_CLASS } = classFound
 
     console.log(`Se buscará para la clase del ${tomorrow.format('YYYY-MM-DD HH:mm:ss')} en ${ID}`)

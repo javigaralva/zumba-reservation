@@ -7,16 +7,17 @@ dotenv.config()
 
 main()
 async function main() {
-    const centerConfig = await getCenterConfigOrExit()
+    const { centerConfig, classId } = await getCenterConfigOrExit()
     const sanitizedCenterConfig = sanitizeCenterConfig(centerConfig)
 
-    await doReservationProcess(sanitizedCenterConfig)
+    await doReservationProcess({ ...sanitizedCenterConfig, classId })
 }
 
 async function getCenterConfigOrExit() {
     const config = readConfig()
 
     const id = process.argv[2]
+    const classId = process.argv[3]
     if (!id) {
         await exitWithError({ text: 'Necesaria la key de configuración del centro donde realizar la reserva.', notify: false })
     }
@@ -25,7 +26,7 @@ async function getCenterConfigOrExit() {
     if (!centerConfig) {
         await exitWithError({ text: `No se ha podido encontrar una configuración para ${id}.`, notify: false })
     }
-    return centerConfig
+    return { centerConfig, classId }
 }
 
 function sanitizeCenterConfig(centerConfig = {}) {

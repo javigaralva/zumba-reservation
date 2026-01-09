@@ -2,6 +2,11 @@ name: Reservation for Dehesa
 
 on:
   workflow_dispatch:
+    inputs:
+      classId:
+        description: Class ID to reserve (optional)
+        type: string
+        required: false
 
 jobs:
   reservationDehesa:
@@ -40,7 +45,7 @@ jobs:
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         run: npx playwright install --with-deps
 
-      - run: npm run dehesa
+      - run: npm run dehesa -- ${{ github.event.inputs.classId }}
         env:
           USER_VINA: ${{ secrets.USER_VINA }}
           PASSWORD_VINA: ${{ secrets.PASSWORD_VINA }}

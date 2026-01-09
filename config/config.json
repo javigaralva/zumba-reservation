@@ -29,6 +29,8 @@
     ],
     "CLASSES": [
       {
+        "ID": "L-20",
+        "SCHEDULER": "0 0 22 * * 0",
         "DAY": 1,
         "HOUR": 20,
         "MINUTE": 0,
@@ -36,6 +38,8 @@
         "SELECTOR_CLASS": ".clase-nombre-ZUMBA-"
       },
       {
+        "ID": "M-19",
+        "SCHEDULER": "0 0 21 * * 1",
         "DAY": 2,
         "HOUR": 19,
         "MINUTE": 0,
@@ -43,6 +47,8 @@
         "SELECTOR_CLASS": ".clase-nombre-ZUMBA-STRONG"
       },
       {
+        "ID": "X-20",
+        "SCHEDULER": "0 0 22 * * 2",
         "DAY": 3,
         "HOUR": 20,
         "MINUTE": 0,
@@ -50,6 +56,8 @@
         "SELECTOR_CLASS": ".clase-nombre-ESTILOS"
       },
       {
+        "ID": "J-20",
+        "SCHEDULER": "0 0 22 * * 3",
         "DAY": 4,
         "HOUR": 20,
         "MINUTE": 0,
