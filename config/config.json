@@ -9,7 +9,6 @@
     "LOGIN_URL": "${BASE_URL}/login",
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases?IdGrupoActividad=3",
     "HAS_TO_CHOOSE_A_PLACE": true,
-    "SCHEDULERS": [],
     "CLASSES": []
   },
   "dehesa": {
@@ -21,12 +20,6 @@
     "LOGIN_URL": "${BASE_URL}/login",
     "CLASS_RESERVATION_URL": "${BASE_URL}/reserva-clases",
     "HAS_TO_CHOOSE_A_PLACE": false,
-    "SCHEDULERS": [
-      "0 0 22 * * 0",
-      "0 0 21 * * 1",
-      "0 0 22 * * 2",
-      "0 0 22 * * 3"
-    ],
     "CLASSES": [
       {
         "ID": "L-20",
